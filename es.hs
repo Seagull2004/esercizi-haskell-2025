@@ -229,6 +229,9 @@ data BST a = Void | Node {
 gioia = Node 10 (Node 5 Void Void) (Node 3 Void Void)
 yei = Node 30 (Node 5 (Node 40 Void Void) Void) (Node 3 Void Void)
 
+yai = Node 30 (Node 3 (Node 40 Void Void) Void) (Node 5 Void Void)
+
+
 -- (1)
 -- Scrivere una funzione che calcola la somma dei valori di un albero a valori sommabili.
 sommaAlbero Void = 0
@@ -242,8 +245,22 @@ sommaDispariAlbero t
   | otherwise   = sommaDispariAlbero (left t) + sommaDispariAlbero (right t)
 
 -- (3)
--- Si scriva un predicato samesums che presa una lista di alberi [t1,...,tn] determina se le somme
--- s1,...,sn dei valori degli elementi di ogni ti sono tutte uguali fra loro.
+-- Si scriva un predicato samesums che presa una lista di alberi [t₁,...,tₙ] determina se le somme
+-- s₁,...,sₙ dei valori degli elementi di ogni ti sono tutte uguali fra loro.
+sameSumsV1 [] = True
+sameSumsV1 ts = fst (foldr step (True, Nothing) ts)
+  where
+    step t (_, Nothing)    = (True, Just (sommaAlbero t))
+    step t (False, sum)    = (False, sum)
+    step t (True, sum)
+      | Just (sommaAlbero t) == sum  = (True, sum)
+      | otherwise                    = (False, sum)
+
+
+sameSumsV2 [] = True
+sameSumsV2 (t:ts) =
+  all ((== sommaAlbero t) . sommaAlbero) ts
+
 
 
 -- (4)
