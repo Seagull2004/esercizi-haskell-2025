@@ -62,21 +62,27 @@ combV2 n = combV2 (n - 1) ++ map (n:) (combV2 (n - 1))
 
 -- (1)
 -- Scrivere una funzione che data una lista ne costruisce una rimuovendo gli elementi di posizione pari (si conti partendo da 1).
+removeEvenPositionV1 :: [Int] -> [Int]
 removeEvenPositionV1 []     = []
 removeEvenPositionV1 (x:xs) = x : removeEvenPositionV1_aux xs
   where
+    removeEvenPositionV1_aux :: [Int] -> [Int]
     removeEvenPositionV1_aux []     = []
     removeEvenPositionV1_aux (x:xs) = removeEvenPositionV1 xs
 
+removeEvenPositionV2 :: [Int] -> [Int]
 removeEvenPositionV2 xs = fst (foldr step ([], length xs) xs)
   where
+    step :: Int -> ([Int], Int) -> ([Int], Int)
     step x (acc, pos) = 
       if even pos
         then (acc, pos - 1)
         else (x : acc, pos - 1)
 
+removeEvenPositionV3 :: [Int] -> [Int]
 removeEvenPositionV3 xs = fst (foldl step ([], 1) xs)
   where
+    step :: ([Int], Int) -> Int -> ([Int], Int)
     step (acc, nr) x =
       if even nr
         then (acc, nr + 1)
@@ -84,8 +90,10 @@ removeEvenPositionV3 xs = fst (foldl step ([], 1) xs)
 
 -- (2)
 -- Scrivere una funzione che calcola la somma degli elementi di posizione dispari di una lista.
+sumOddPositionV1 :: [Int] -> Int
 sumOddPositionV1 xs = fst (foldl sumOdd (0, 1) xs)
   where
+    sumOdd :: (Int, Int) -> Int -> (Int, Int)
     sumOdd (partialSum, i) x =
       if even i
         then (partialSum, i + 1)
@@ -93,14 +101,17 @@ sumOddPositionV1 xs = fst (foldl sumOdd (0, 1) xs)
 
 -- (3)
 -- Scrivere il QuickSort (polimorfo).
+quickSort :: (Ord a) => [a] -> [a]
 quickSort [] = []
 quickSort (x:xs) = quickSort [y | y <- xs, y < x] ++ [x] ++ quickSort [y | y <- xs, x <= y]
 
 -- (4)
 -- Scrivere una funzione che calcola i 2 minori elementi dispari di una lista (se esistono). Ad esempio minOdd([2,3,4,6,8,7,5]) riduce a (3,5)
+minOddV1 :: [Int] -> [Int]
 minOddV1 [] = []
 minOddV1 xs = minOddAux xs []
   where
+    minOddAux :: [Int] -> [Int] -> [Int]
     minOddAux [] odds = odds
     minOddAux (x:xs) odds
       | even x                                      = minOddAux xs odds
@@ -111,6 +122,8 @@ minOddV1 xs = minOddAux xs []
       | odd x && length odds == 2 && x < odds!!1    = minOddAux xs [odds!!0, x]
       | otherwise                                   = minOddAux xs odds
 
+
+minOddV2 :: [Int] -> [Int]
 minOddV2 [] = []
 minOddV2 xs = take 2 (quickSort (filter odd xs))
 
@@ -141,9 +154,11 @@ minOddV2 xs = take 2 (quickSort (filter odd xs))
 
 -- (1)
 -- Si scriva una funzione matrix_dim che data una matrice ne calcola le dimensioni, se la matrice è ben formata, altrimenti restituisce (-1,-1).
+matrixDim :: [[a]] -> [Int]
 matrixDim []  = [0,0]
 matrixDim mat = matrixDimAux (length mat) (length (mat !! 0)) mat
   where
+    matrixDimAux :: Int -> Int -> [[a]] -> [Int]
     matrixDimAux n m [] = [n,m]
     matrixDimAux n m (line:rest)
       | length line == m         = matrixDimAux n m rest
@@ -151,14 +166,18 @@ matrixDim mat = matrixDimAux (length mat) (length (mat !! 0)) mat
 
 -- (2)
 -- Si scriva una funzione colsums che data una matrice calcola il vettore delle somme delle colonne
+matColSumV1 :: (Num a) => [[a]] -> [a]
 matColSumV1 []          = []
 matColSumV1 (line:rest) = colSumAux rest line
   where
+    colSumAux :: (Num a) => [[a]] -> [a] -> [a]
     colSumAux [] result = result
     colSumAux (line:rest) result
       | null line = result
       | otherwise = colSumAux rest (sumVect result line)
-    sumVect = zipWith (+)
+        where
+          sumVect :: (Num a) => [a] -> [a] -> [a]
+          sumVect = zipWith (+)
 
 -- matColSumV2 [] = []
 -- matColSumV2 ([]:_) = []
@@ -177,18 +196,23 @@ pluto = [[5,7,9,8],
 -- (3)
 -- Si scriva una funzione colaltsums che, data una matrice implementata come liste di liste per righe, calcola il vettore delle somme a segni alternati delle colonne della matrice.
 -- Sia sⱼ la somma della colonan j-esima: sⱼ = ∑ᵢ₌₁ⁿ (-1)ⁱ⁺¹ aᵢⱼ, colaltsums(matrice n x m) = (s₁ ... sₘ) 
+colAltSumsV1 :: (Num a) => [[a]] -> [a]
 colAltSumsV1 []          = []
 colAltSumsV1 (line:rest) = colSumAux rest line True
   where
+    colSumAux :: (Num a) => [[a]] -> [a] -> Bool -> [a]
     colSumAux [] result _ = result
     colSumAux (line:rest) result invert
       | null line = result
       | invert = colSumAux rest (subVect result line) (not invert)
       | otherwise = colSumAux rest (sumVect result line) (not invert)
-    sumVect = zipWith (+)
-    subVect = zipWith (-)
+        where
+          sumVect :: (Num a) => [a] -> [a] -> [a]
+          sumVect = zipWith (+)
+          subVect :: (Num a) => [a] -> [a] -> [a]
+          subVect = zipWith (-)
 
--- (4)
+    -- (4)
 -- Si scriva una funzione colMinMax che, data una matrice implementata come liste di liste per righe, calcola il vettore delle coppie (minimo,massimo) delle colonne della matrice
 
 -- (5)
