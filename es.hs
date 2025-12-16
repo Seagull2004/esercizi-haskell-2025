@@ -8,22 +8,28 @@
 
 -- (1)
 -- Si scriva la funzione fattoriale. Si verifichi il funzionamento calcolando 10000!
+factV1 :: Int -> Int
 factV1 0 = 1
 factV1 n = n * factV1 (n - 1)
 
+factV2 :: Int -> Int
 factV2 n = foldl (*) 1 [1..n]
 
+factV3 :: Int -> Int
 factV3 n = product [1..n]
 
 -- (2)
 -- Si scriva la funzione \binom n k , combinazioni di k elementi su n.
 -- note:
 --  bormula binomio n su k:  n! / (k! * (n-k)!)
-binomV1 n k = factV1 n / (factV1 k * factV1 (n - k))
+binomV1 :: Int -> Int -> Int
+binomV1 n k = factV1 n `div` (factV1 k * factV1 (n - k))
 
-binomV2 n k = foldl (*) 1 [(n-k+1)..n] / factV1 k
+binomV2 :: Int -> Int -> Int
+binomV2 n k = foldl (*) 1 [(n-k+1)..n] `div` factV1 k
 
-binomV3 n k = product [(n-k+1)..n] / factV1 k
+binomV3 :: Int -> Int -> Int
+binomV3 n k = product [(n-k+1)..n] `div` factV1 k
 
 -- (3)
 -- Si scriva una funzione che calcoli una lista con tutte le combinazioni su n elementi. 
@@ -31,11 +37,14 @@ binomV3 n k = product [(n-k+1)..n] / factV1 k
 -- note:
 --  combinazioni di n elementi ~ insieme delle parti dei numeri da 1 a n
 --  usare: map :: (a -> b) -> [a] -> [b]
+combV1 :: Int -> [[Int]]
 combV1 n = combV1Aux [1..n]
-  where 
+  where
+    combV1Aux :: [Int] -> [[Int]]
     combV1Aux []     = [[]]
     combV1Aux (x:xs) = combV1Aux xs ++ map (x:) (combV1Aux xs)
 
+combV2 :: Int -> [[Int]]
 combV2 0 = [[]]
 combV2 n = combV2 (n - 1) ++ map (n:) (combV2 (n - 1))
 
@@ -256,15 +265,17 @@ sameSumsV1 ts = fst (foldr step (True, Nothing) ts)
       | Just (sommaAlbero t) == sum  = (True, sum)
       | otherwise                    = (False, sum)
 
-
 sameSumsV2 [] = True
 sameSumsV2 (t:ts) =
   all ((== sommaAlbero t) . sommaAlbero) ts
 
-
-
 -- (4)
--- Scrivere un predicato bstElem (infisso magari) per determinare se un valore `e presente in un BST.
+-- Scrivere un predicato bstElem (infisso magari) per determinare se un valore è presente in un BST.
+bstElem Void _  = False
+bstElem t n
+  | val t == n  = True
+  | otherwise   = bstElem (left t) n || bstElem (right t) n
+
 
 -- (5)
 -- Si scriva una funzione per eseguire l’inserimento di un dato x in un albero t.
