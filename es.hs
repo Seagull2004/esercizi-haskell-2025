@@ -1,3 +1,7 @@
+-- WARNING:
+-- gli esercizi qui sotto riportati sono tratti dal pdf:
+-- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
+--
 ---------------------------------------------------------------------------------
 -- argomento 1: NUMERI
 -- Si ricordi che si dispone di varie funzioni aritmetiche polimorfe nel Prelude, come 
@@ -212,7 +216,7 @@ colAltSumsV1 (line:rest) = colSumAux rest line True
           subVect :: (Num a) => [a] -> [a] -> [a]
           subVect = zipWith (-)
 
-    -- (4)
+-- (4)
 -- Si scriva una funzione colMinMax che, data una matrice implementata come liste di liste per righe, calcola il vettore delle coppie (minimo,massimo) delle colonne della matrice
 
 -- (5)
@@ -526,28 +530,56 @@ bstElem t n
 --             9..  fold for beginners
 
 -- (1)
---
+-- Si scriva una funzione `buildNSimplify` che dati 4 QuadTree costruisca un QuadTree la cui im-
+-- magine codificata sia quella ottenuta dalle 4 immagini corrispondenti ai 4 QuadTree messe nei
+-- quadranti superiore-sinistro, superiore-destro, inferiore-sinistro, inferiore-destro, rispettivamente.
+-- (Attenzione che tutti sono e devono essere QuadTrees, non solo termini di tipo QT)
+
 
 -- (2)
---
+-- Si scriva una funzione `simplify` che dato un termine di tipo QT genera il QuadTree corrispondente.
 
 -- (3)
---
+-- Si scriva una funzione map che data una funzione f e un QuadTree q determina il QuadTree che
+-- codifica l’immagine risultante dall’applicazione di f a tutti i pixel dell’immagine codificata da q.
 
 -- (4)
+-- Si scriva una funzione howManyPixels che dato un QuadTree determina il numero (minimo) di
+-- pixel di quell’immagine. Ad esempio
 --
+-- let z = C 0; u = C 1; q = Q z u u u in howManyPixels (Q q (C 0) (C 2) q)
+-- restituisce 16.
 
 -- (5)
---
+-- Si scriva una funzione limitAll che dato un colore c e una lista di QuadTrees costruisca la lista
+-- dei QuadTrees che codificano le immagini i cui pixels sono limitati al colore c (pixel originale se il
+-- colore è <c, c altrimenti)
 
 -- (6)
+-- Si scriva una funzione occurrencies che dato un QuadTree ed un colore determina il numero
+-- (minimo) di pixel di quel colore. Ad esempio
 --
+-- let z = C 0; u = C 1; q = Q z u u u in occurrencies (Q q (C 0) (C 2) q ) 0
+-- Page 7restituisce 6 (visto che il QuadTree codifica almeno 16 pixel).
 
 -- (7)
+-- Si scriva una funzione Haskell difference che dato un colore c ed un QuadTree q determina la
+-- diﬀerenza fra il numero di pixel dell’immagine codificata da q che hanno un colore maggiore di ce
+-- quelli minori di c. Ad esempio
 --
+-- let d = C 2; u = C 1; q = Q d u u u
+-- in difference 1 (Q q (C 0) (C 3) q )
+-- restituisce -4 (visto che il QuadTree codifica almeno 16 pixel).
 
 -- (8)
+-- Si scriva una funzione Haskell overColor che dato un colore c ed un QuadTree q determina il
+-- numero (minimo) di pixel dell’immagine codificata da q che hanno un colore maggiore di c. Ad
+-- esempio
+-- 
+-- let d = C 2; u = C 1; q = Q d u u u
+-- in overColor 1 (Q q (C 0) (C 3) q)
 --
+-- restituisce 6 (visto che il QuadTree codifica almeno 16 pixel)
 
 -- (9)
 --
