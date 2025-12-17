@@ -536,6 +536,7 @@ quad1 = Q (C 1) (C 1) (C 1) (C 1)
 quad2 = Q (C 7) (C 3) (C 2) (C 9)
 quad3 = Q (C 8) (C 9) (C 1) (C 8)
 quad4 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 1))
+quad5 = Q (C 18) (C 19) (C 11) (C 18)
 
 -- (1)
 -- Si scriva una funzione `buildNSimplify` che dati 4 QuadTree costruisca un QuadTree la cui im-
@@ -565,7 +566,15 @@ simplify (Q a b c d) = simplify (Q (simplify a) (simplify b) (simplify c) (simpl
 -- (3)
 -- Si scriva una funzione map che data una funzione f e un QuadTree q determina il QuadTree che
 -- codifica l’immagine risultante dall’applicazione di f a tutti i pixel dell’immagine codificata da q.
-
+transform f q = simplify (compute_transform f q)
+  where
+    compute_transform f (C a)       = C (f a)
+    compute_transform f (Q a b c d) = Q (compute_transform f a) (compute_transform f b) (compute_transform f c) (compute_transform f d)
+-- esempio di funzione da utilizzare per f
+add10 n = n + 10
+square n = n^2
+decina n = 10 * (n `div` 10) -- !! interessante usare questa f su quad5 -> si ottiene un immagine maggiormente compressa dopo aver applicato transforma
+                             -- transform decina quad5
 
 -- (4)
 -- Si scriva una funzione howManyPixels che dato un QuadTree determina il numero (minimo) di
