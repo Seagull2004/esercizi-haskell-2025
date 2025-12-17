@@ -514,26 +514,44 @@ bstElem t n
 
 ---------------------------------------------------------------------------------
 -- argomento 6: QUAD TREES
--- Molte tecniche sviluppate per la compressione di immagini si basano su una codifica ad albero chiamata “Quad Tree”. Si codificano in questo modo immagini quadrate il cui lato sia una potenza di 2. Se l’immagine `e omogenea (stesso colore) si codifica, indipendentemente dalle sue dimensioni, con una foglia contenente il colore. Se l’immagine `e eterogenea allora si utilizza un nodo i cui figli contengono le codifiche dei quadranti superiore-sinistro, superiore-destro, inferiore-sinistro, inferiore-destro, rispettivamente. 
+-- Molte tecniche sviluppate per la compressione di immagini si basano su una codifica ad albero chiamata “Quad Tree”. Si codificano in questo modo immagini quadrate il cui lato sia una potenza di 2. Se l’immagine è omogenea (stesso colore) si codifica, indipendentemente dalle sue dimensioni, con una foglia contenente il colore. Se l’immagine è eterogenea allora si utilizza un nodo i cui figli contengono le codifiche dei quadranti superiore-sinistro, superiore-destro, inferiore-sinistro, inferiore-destro, rispettivamente. 
 -- Si definiscano i QuadTrees col seguente tipo di dato astratto (polimorfo) 
 --
--- data ( Eq a , Show a ) = > QT a = C a | Q ( QT a ) ( QT a ) ( QT a ) ( QT a ) 
---   deriving ( Eq , Show ) 
+-- data QT a = C a | Q (QT a) (QT a) (QT a) (QT a) 
+--   deriving (Eq , Show) 
 --
+-- WARNING :
 -- Con questa struttura si possono costruire termini che non corrispondono propriamente ad un QuadTree. Ad esempio 
--- 
 -- let u = C 1 in Q u u u u 
--- 
--- non è la codifica di un’immagine, visto che dovrebbe essere semplicemente C 1. Chiamer`o “termini di tipo QT” questi casi patologici, mentre QuadTrees quelli che corrispondono correttamente alla codifica di un’immagine. Possiamo subito notare dall’esempio di prima che partendo da 4 QuadTrees non si garantisce di costruire con il costruttore Q un QuadTree, ma solo un termine di tipo QT.
+-- non è la codifica di un’immagine, visto che dovrebbe essere semplicemente C 1. Chiamerò "termini di tipo QT" questi casi patologici, mentre QuadTrees quelli che corrispondono correttamente alla codifica di un'immagine. Possiamo subito notare dall'esempio di prima che partendo da 4 QuadTrees non si garantisce di costruire con il costruttore Q un QuadTree, ma solo un termine di tipo QT.
 --
 -- difficoltà: 1..8 base
 --             9..  fold for beginners
+
+data QT a = C a | Q (QT a) (QT a) (QT a) (QT a) 
+  deriving (Eq , Show)
+
+myQuadTree = Q (C 1) (C 2) (C 3) (Q (C 4) (C 1) (C 2) (C 3))
+quad1 = Q (C 1) (C 1) (C 1) (C 1)
+quad2 = Q (C 7) (C 3) (C 2) (C 9)
+quad3 = Q (C 8) (C 9) (C 1) (C 8)
+quad4 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 1))
 
 -- (1)
 -- Si scriva una funzione `buildNSimplify` che dati 4 QuadTree costruisca un QuadTree la cui im-
 -- magine codificata sia quella ottenuta dalle 4 immagini corrispondenti ai 4 QuadTree messe nei
 -- quadranti superiore-sinistro, superiore-destro, inferiore-sinistro, inferiore-destro, rispettivamente.
 -- (Attenzione che tutti sono e devono essere QuadTrees, non solo termini di tipo QT)
+buildNSimplify :: (Eq a) => QT a -> QT a -> QT a -> QT a -> QT a
+buildNSimplify q1 q2 q3 q4 = fixPatologic (Q q1 q2 q3 q4)
+  where
+    fixPatologic :: (Eq a) => QT a -> QT a
+    fixPatologic (C a) = C a
+    fixPatologic (Q (C a) (C b) (C c) (C d))
+      | a == b && b == c && c == d  = C a
+      | otherwise                   = Q (C a) (C b) (C c) (C d)
+    fixPatologic (Q a b c d) = fixPatologic (Q (fixPatologic a) (fixPatologic b) (fixPatologic c) (fixPatologic d))
+
 
 
 -- (2)
