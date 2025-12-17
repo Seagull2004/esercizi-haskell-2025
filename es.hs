@@ -553,13 +553,19 @@ buildNSimplify q1 q2 q3 q4 = fixPatologic (Q q1 q2 q3 q4)
     fixPatologic (Q a b c d) = fixPatologic (Q (fixPatologic a) (fixPatologic b) (fixPatologic c) (fixPatologic d))
 
 
-
 -- (2)
 -- Si scriva una funzione `simplify` che dato un termine di tipo QT genera il QuadTree corrispondente.
+simplify :: (Eq a) => QT a -> QT a
+simplify (C a) = C a
+simplify (Q (C a) (C b) (C c) (C d))
+  | a == b && b == c && c == d  = C a
+  | otherwise                   = Q (C a) (C b) (C c) (C d)
+simplify (Q a b c d) = simplify (Q (simplify a) (simplify b) (simplify c) (simplify d))
 
 -- (3)
 -- Si scriva una funzione map che data una funzione f e un QuadTree q determina il QuadTree che
 -- codifica l’immagine risultante dall’applicazione di f a tutti i pixel dell’immagine codificata da q.
+
 
 -- (4)
 -- Si scriva una funzione howManyPixels che dato un QuadTree determina il numero (minimo) di
