@@ -134,13 +134,13 @@ minOddV2 xs = take 2 (quickSort (filter odd xs))
 
 -- (5)
 -- Scrivere una funzione che costruisce, a partire da una lista di numeri interi, una lista di coppie in cui 
---  (a) il primo elemento di ogni coppia `e uguale all’elemento di corrispondente posizione nella lista originale e 
---  (b) il secondo elemento di ogni coppia `e uguale alla somma di tutti gli elementi conseguenti della lista originale
+--  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
+--  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi conseguenti della lista originale
 
 -- (6)
 -- Scrivere una funzione che costruisce, a partire da una lista di numeri interi (provate poi a generalizzare), una lista di coppie in cui 
---  (a) il primo elemento di ogni coppia `e uguale all’elemento di corrispondente posizione nella lista originale e 
---  (b) il secondo elemento di ogni coppia `e uguale alla somma di tutti gli elementi antecedenti della lista originale
+--  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
+--  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi antecedenti della lista originale
 -- [farlo con foldr o foldl è difficile]
 
 -- (7)
@@ -220,22 +220,22 @@ colAltSumsV1 (line:rest) = colSumAux rest line True
 -- Si scriva una funzione colMinMax che, data una matrice implementata come liste di liste per righe, calcola il vettore delle coppie (minimo,massimo) delle colonne della matrice
 
 -- (5)
--- Si scriva un predicato lowertriangular che determina se una matrice (quadrata) `e triangolare inferiore. A titolo di esempio, lowertriangular([[1,0,0],[2,-3,0],[4,5,6]]) restituisce True, mentre lowertriangular([[0,0,1],[2,-3,0],[4,5,6]]) restituisce False
+-- Si scriva un predicato lowertriangular che determina se una matrice (quadrata) è triangolare inferiore. A titolo di esempio, lowertriangular([[1,0,0],[2,-3,0],[4,5,6]]) restituisce True, mentre lowertriangular([[0,0,1],[2,-3,0],[4,5,6]]) restituisce False
 
 -- (6)
--- Si scriva un predicato uppertriangular che determina se una matrice (quadrata) `e triangolare superiore
+-- Si scriva un predicato uppertriangular che determina se una matrice (quadrata) è triangolare superiore
 
 -- (7)
--- Si scriva un predicato diagonal che determina se una matrice (quadrata) `e diagonale.
+-- Si scriva un predicato diagonal che determina se una matrice (quadrata) è diagonale.
 
 -- (8)
--- Una matrice quadrata M di ordine n si dice convergente con raggio r se il modulo della somma degli elementi di ogni riga, escluso quello sulla diagonale, `e inferiore a r. Si scriva un predicato convergent m r che determina se una matrice (quadrata) m `e convergente con raggio r.
+-- Una matrice quadrata M di ordine n si dice convergente con raggio r se il modulo della somma degli elementi di ogni riga, escluso quello sulla diagonale, è inferiore a r. Si scriva un predicato convergent m r che determina se una matrice (quadrata) m è convergente con raggio r.
 
 -- (9)
 -- Si scriva una funzione che data una matrice di dimensioni m × n restituisce la corrispondente matrice trasposta (di dimensioni n × m).
 
 -- (10)
--- Si scriva un predicato isSymmetric che, data una matrice quadrata, determina se `e simmetrica
+-- Si scriva un predicato isSymmetric che, data una matrice quadrata, determina se è simmetrica
 
 -- (11)
 -- Si scriva una funzione che data una matrice di dimensioni n × k ed una k × m restituisca la matrice prodotto corrispondente (di dimensioni n × m). Si assuma di moltiplicare matrici con dimensioni compatibili e (se facesse comodo) matrici non degeneri
@@ -339,8 +339,8 @@ bstElem t n
 
 -- (12)
 -- Si scriva una funzione diff2next che, dato un albero binario di ricerca, costruisce un albero
--- binario di ricerca (annotato) di coppie dove il primo elemento di ogni coppia `e l’elemento dell’albero
--- originale mentre il secondo elemento `e Just(la diﬀerenza rispetto al valore successivo), secondo
+-- binario di ricerca (annotato) di coppie dove il primo elemento di ogni coppia è l’elemento dell’albero
+-- originale mentre il secondo elemento è Just(la diﬀerenza rispetto al valore successivo), secondo
 -- l’ordinamento dei valori contenuti, oppure Nothing per il nodo di valore massimo. A titolo di
 -- esempio,
 -- Node 4 Void (Node 7 (Node 5 Void Void) Void)
@@ -369,7 +369,7 @@ bstElem t n
 
 -- (17)
 -- Si scriva una funzione maxDiameter che data una lista l di BST determina il massimo dei dia-
--- metri dei BST di l. Il diametro di un BST `e la lunghezza del massimo cammino fra due nodi,
+-- metri dei BST di l. Il diametro di un BST è la lunghezza del massimo cammino fra due nodi,
 -- indipendentemente dall’orientamento degli archi.
 
 -- (18)
@@ -381,8 +381,8 @@ bstElem t n
 -- data ( Ord a ) = > ABST a = Void | Node Bal a ( ABST a ) ( ABST a )
 -- deriving ( Eq , Ord , Read , Show )
 -- data Bal = Left | Bal | Right deriving ( Eq , Ord , Read , Show )
--- determina se `e ben formato, cio`e se
--- •la diﬀerenza fra le profondit`a dei sottoalberi destro e sinistro di un qualunque nodo `e al
+-- determina se è ben formato, cio`e se
+-- •la diﬀerenza fra le profondit`a dei sottoalberi destro e sinistro di un qualunque nodo è al
 -- massimo 1;
 -- •le etichette Bal dei nodi sono consistenti con lo (s)bilanciamento
 
@@ -391,12 +391,12 @@ bstElem t n
 -- data ( Ord a ) = > RBT a = Void | Node a Color ( RBT a ) ( RBT a )
 -- deriving ( Eq , Ord , Read , Show )
 -- data Color = Red | Black deriving ( Eq , Ord , Read , Show )
--- determina se `e ben formato, cio`e se
+-- determina se è ben formato, cio`e se
 -- • ogni nodo contiene un valore non minore dei valori del suo sottoalbero sinistro e minore dei
 -- valori del sottoalbero destro;
 -- • tutti i cammini dalla radice a una foglia hanno lo stesso numero di nodi Black;
 -- • i nodi Red devono avere genitore Black;
--- • la radice `e Black.
+-- • la radice è Black.
 
 -- (21)
 -- Si riscriva la funzione bst2List dell’Esercizio 6 usando opportunamente fold.
@@ -413,7 +413,7 @@ bstElem t n
 -- degli elementi dell’albero compresi nell’intervallo di valori da x a y.
 --
 -- NB: Garantire che let d=d in limitedVisit 3 7 (Node 7 (Node 2 (Node d Void Void)
--- Void) (Node d Void Void)) termini non `e immediato.
+-- Void) (Node d Void Void)) termini non è immediato.
 
 -- (25)
 -- Si scriva una funzione shiftToZero che dato un BST t costruisce un nuovo BST isomorfo che
@@ -710,10 +710,17 @@ limitAllV1 qs lim = map (limit lim) qs
 -- |---------------|-------|---|---|
 
 -- (24)
---
+-- Si scriva una funzione Haskell commonPoints che data una lista non-vuota di QuadTrees lcostruisce
+-- il QuadTree “maschera”, a valori booleani, che ha “un pixel” a True se nella medesima posizione
+-- tutte le immagini di l hanno pixels uguali, False altrimenti.
 
 -- (25)
---
+-- Si scriva un predicato framed che dato un predicato sui colori p ed un QuadTree determina se il
+-- bordo esterno dell’immagine codificata è tutto composto da pixels che soddisfano p.
+
+-- (26)
+-- Si scriva una funzione frame che dato un QuadTree restituisca Just c se il bordo esterno dell’im-
+-- magine codificata è tutto composto da pixels di colore c (Nothing altrimenti).
 
 ---------------------------------------------------------------------------------
 -- argomento 7: MATRICI MEDIANTE QUAD TREES
@@ -732,78 +739,65 @@ limitAllV1 qs lim = map (limit lim) qs
 --             12..14 fold for beginners
 
 -- (1)
---
+-- Si scriva un predicato lowertriangular che determina se una matrice è triangolare inferiore.
+-- Attenti a cosa devono restituire
+-- lowertriangular $ Mat 0 (C 2) e lowertriangular $ Mat 1 (C 2).
 
 -- (2)
---
+-- Si scriva un predicato uppertriangular che determina se una matrice è triangolare superiore.
 
 -- (3)
---
+-- Si scriva un predicato diagonal che determina se una matrice è diagonale.
 
 -- (4)
---
+-- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
 
 -- (5)
---
+-- Si scriva una funzione matMul che date 2 matrici calcoli la matrice prodotto.
 
 -- (6)
---
+-- Si scriva una funzione zong che, dati due valori x,y e una matrice A, calcola la matrice xA−yI
+-- (dove I è la matrice unitaria della giusta dimensione).
 
 -- (7)
---
+-- Si scriva una funzione f che, dati un vettore v e una matrice A, calcola lo scalare vAvT . Si scelga
+-- la struttura dati per i vettori nel modo che si ritiene pi`u opportuno.
 
 -- (8)
---
+-- Si scriva una funzione colSums che data una matrice calcola il vettore delle somme delle colonne
+-- della matrice.
+-- Ad esempio
+-- let z = C 0; u = C 1; d = C 2 in colsums $ Mat 3 $ Q ( Q u d d u ) z u d
+-- deve produrre [10,10,10,10,8,8,8,8].
 
 -- (9)
---
+-- Si scriva una funzione rowSums che data una matrice calcola il vettore delle somme delle righe della
+-- matrice.
 
 -- (10)
---
+-- Si scriva una funzione colMinMax che data una matrice calcola il vettore delle coppie (minimo,massimo)
+-- delle colonne della matrice.
 
 -- (11)
---
+-- Si scriva una funzione colVar che, data una matrice, calcola il vettore delle variazioni (= massimo
+-- - minimo) delle colonne della matrice.
 
 -- (12)
---
+-- Si scriva una funzione colAltSums che calcola il vettore delle somme a segni alternati delle colonne
+-- della matrice. Detto 
+--                                  | a₁₁  ...  a₁ₘ |
+-- sⱼ = ∑ᵢ₌₁ⁿ(−1)ⁱ⁺¹aᵢⱼ, colaltsums(| ...       ... |) = (s₁ ... sₘ)
+--                                  | aₙ₁       aₙₘ |
+
 
 -- (13)
---
+-- Si scriva una funzione transpose che calcola la matrice trasposta
 
 -- (14)
---
+-- Si scriva un predicato isSymmetric che determina se una matrice è simmetrica.
 
 -- (15)
---
-
--- (16)
---
-
--- (17)
---
-
--- (18)
---
-
--- (19)
---
-
--- (20)
---
-
--- (21)
---
-
--- (22)
---
-
--- (23)
---
-
--- (24)
---
-
--- (25)
---
-
-
+-- Si scriva una funzione foldMat con tipo
+-- foldMat :: ( Num a ) = >
+--   ( Int -> b -> b -> b -> b -> b ) ->
+--   ( Int -> a -> b ) -> Mat a -> b
