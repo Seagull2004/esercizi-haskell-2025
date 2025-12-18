@@ -582,14 +582,18 @@ decina n = 10 * (n `div` 10) -- !! interessante usare questa f su quad5 -> si ot
 --
 -- let z = C 0; u = C 1; q = Q z u u u in howManyPixels (Q q (C 0) (C 2) q)
 -- restituisce 16.
+howManyPixelsV1 :: QT a -> Int
 howManyPixelsV1 q = pixelPerSide q ^ 2
   where
+    pixelPerSide :: QT a -> Int
     pixelPerSide (C a) = 1
     pixelPerSide (Q a b c d) = 
       2 * foldr max (pixelPerSide a) [pixelPerSide a,pixelPerSide b,pixelPerSide c,pixelPerSide d]
 
+howManyPixelsV2 :: QT a -> Int
 howManyPixelsV2 q = pixelPerSide q ^ 2
   where
+    pixelPerSide :: QT a -> Int
     pixelPerSide (C a) = 1
     pixelPerSide (Q a b c d) = 
       2 * maximum [pixelPerSide a,pixelPerSide b,pixelPerSide c,pixelPerSide d]
@@ -603,6 +607,15 @@ ris = howManyPixelsV1 (Q q (C 0) (C 2) q) -- ris = 16
 -- Si scriva una funzione limitAll che dato un colore c e una lista di QuadTrees costruisca la lista
 -- dei QuadTrees che codificano le immagini i cui pixels sono limitati al colore c (pixel originale se il
 -- colore è <c, c altrimenti)
+limitAll :: (Ord a) => [QT a] -> a -> [QT a]
+limitAll qs lim = map (limit lim) qs
+  where
+    limit :: (Ord b) => b -> QT b -> QT b
+    limit lim (C a)
+      | a <= lim  = C a
+      | otherwise = C lim
+    limit lim (Q a b c d) = Q (limit lim a) (limit lim b) (limit lim c) (limit lim d)
+
 
 -- (6)
 -- Si scriva una funzione occurrencies che dato un QuadTree ed un colore determina il numero
