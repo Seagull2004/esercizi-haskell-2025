@@ -582,6 +582,22 @@ decina n = 10 * (n `div` 10) -- !! interessante usare questa f su quad5 -> si ot
 --
 -- let z = C 0; u = C 1; q = Q z u u u in howManyPixels (Q q (C 0) (C 2) q)
 -- restituisce 16.
+howManyPixelsV1 q = pixelPerSide q ^ 2
+  where
+    pixelPerSide (C a) = 1
+    pixelPerSide (Q a b c d) = 
+      2 * foldr max (pixelPerSide a) [pixelPerSide a,pixelPerSide b,pixelPerSide c,pixelPerSide d]
+
+howManyPixelsV2 q = pixelPerSide q ^ 2
+  where
+    pixelPerSide (C a) = 1
+    pixelPerSide (Q a b c d) = 
+      2 * maximum [pixelPerSide a,pixelPerSide b,pixelPerSide c,pixelPerSide d]
+
+z = C 0
+u = C 1
+q = Q z u u u 
+ris = howManyPixelsV1 (Q q (C 0) (C 2) q) -- ris = 16
 
 -- (5)
 -- Si scriva una funzione limitAll che dato un colore c e una lista di QuadTrees costruisca la lista
