@@ -607,8 +607,8 @@ ris = howManyPixelsV1 (Q q (C 0) (C 2) q) -- ris = 16
 -- Si scriva una funzione limitAll che dato un colore c e una lista di QuadTrees costruisca la lista
 -- dei QuadTrees che codificano le immagini i cui pixels sono limitati al colore c (pixel originale se il
 -- colore è <c, c altrimenti)
-limitAll :: (Ord a) => [QT a] -> a -> [QT a]
-limitAll qs lim = map (limit lim) qs
+limitAllV1 :: (Ord a) => [QT a] -> a -> [QT a]
+limitAllV1 qs lim = map (limit lim) qs
   where
     limit :: (Ord b) => b -> QT b -> QT b
     limit lim (C a)
@@ -686,7 +686,28 @@ limitAll qs lim = map (limit lim) qs
 --
 
 -- (23)
+-- Si scriva una funzione Haskell insertLogo che dati i QuadTrees di due immagini ql, qp ed un
+-- QuadTree “maschera” a valori booleani, costruisce il QuadTree dell’immagine risultante inserendo
+-- la figura ql all’interno del quadrante marcato * di qp scegliendo i pixel di ql o qp in corrispondenza
+-- del valore True o False della maschera
 --
+-- |---------------|---------------|
+-- |               |               |
+-- |               |               |
+-- |               |               |
+-- |               |               |
+-- |               |               |
+-- |               |               |
+-- |               |               |
+-- |---------------|-------|-------|
+-- |               |       |       |
+-- |               |       |       |
+-- |               |       |       |
+-- |               |-------|---|---|
+-- |               |       | * |   |
+-- |               |       |---|---|
+-- |               |       |   |   |
+-- |---------------|-------|---|---|
 
 -- (24)
 --
