@@ -1,3 +1,6 @@
+import Data.IntMap (difference)
+import Data.Semigroup (diff)
+import System.Console.Terminfo (Point(col))
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
@@ -648,12 +651,35 @@ occurrenciesV2 q color = occurrenciesAux q color (howManyPixelsV1 q)
 
 -- (7)
 -- Si scriva una funzione Haskell difference che dato un colore c ed un QuadTree q determina la
--- diﬀerenza fra il numero di pixel dell’immagine codificata da q che hanno un colore maggiore di ce
--- quelli minori di c. Ad esempio
+-- differenza fra il numero di pixel dell’immagine codificata da q che hanno un colore maggiore di c e
+-- quelli minori (O UGUALI???) di c. Ad esempio
 --
 -- let d = C 2; u = C 1; q = Q d u u u
 -- in difference 1 (Q q (C 0) (C 3) q )
 -- restituisce -4 (visto che il QuadTree codifica almeno 16 pixel).
+
+-- WARNING: questa implementazione considera la anche gli elementi uguali al colore di filtro e li aggiunge alla conta dei numeri "minori di c"
+-- questa implementazione sembra giusta siccome rispetta la logica dell'esempio fornito
+differenceV1 color q = differenceAux q color (howManyPixelsV1 q)
+  where
+    differenceAux (C a) color size
+      | a > color = size
+      | otherwise = -size
+    differenceAux (Q a b c d) color size
+      = sum (map (\y -> differenceAux y color (size `div` 4)) [a,b,c,d])
+
+-- WARNING: questa implementazione non considera la anche gli elementi uguali al colore di filtro come da richiesta originale -> "[...] che hanno un colore MAGGIORE di c e quelli MINORI di c."
+-- questa implementazione sembra giusta siccome rispetta la consegna fornita
+differenceV2 color q = differenceAux q color (howManyPixelsV1 q)
+  where
+    differenceAux (C a) color size
+      | a > color = size
+      | a < color = -size
+      | otherwise = 0
+    differenceAux (Q a b c d) color size
+      = sum (map (\y -> differenceAux y color (size `div` 4)) [a,b,c,d])
+
+quad7 = Q (Q (C 2) (C 1) (C 1) (C 1)) (C 0) (C 3) (Q (C 2) (C 1) (C 1) (C 1))
 
 -- (8)
 -- Si scriva una funzione Haskell overColor che dato un colore c ed un QuadTree q determina il
