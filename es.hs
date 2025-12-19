@@ -537,6 +537,7 @@ quad2 = Q (C 7) (C 3) (C 2) (C 9)
 quad3 = Q (C 8) (C 9) (C 1) (C 8)
 quad4 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 1))
 quad5 = Q (C 18) (C 19) (C 11) (C 18)
+quad6 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 2))
 
 -- (1)
 -- Si scriva una funzione `buildNSimplify` che dati 4 QuadTree costruisca un QuadTree la cui im-
@@ -622,7 +623,28 @@ limitAllV1 qs lim = map (limit lim) qs
 -- (minimo) di pixel di quel colore. Ad esempio
 --
 -- let z = C 0; u = C 1; q = Q z u u u in occurrencies (Q q (C 0) (C 2) q ) 0
--- Page 7restituisce 6 (visto che il QuadTree codifica almeno 16 pixel).
+-- restituisce 6 (visto che il QuadTree codifica almeno 16 pixel).
+-- occurrencies :: QT a -> a -> Int
+occurrenciesV1 q color = occurrenciesAux q color (howManyPixelsV1 q)
+  where
+    occurrenciesAux :: (Eq a) => QT a -> a -> Int -> Int
+    occurrenciesAux (C a) color size
+      | a == color   = size
+      | otherwise    = 0
+    occurrenciesAux (Q a b c d) color size
+      = sum [occurrenciesAux a color (size `div` 4),
+             occurrenciesAux b color (size `div` 4),
+             occurrenciesAux c color (size `div` 4),
+             occurrenciesAux d color (size `div` 4)]
+
+occurrenciesV2 q color = occurrenciesAux q color (howManyPixelsV1 q)
+  where
+    occurrenciesAux :: (Eq a) => QT a -> a -> Int -> Int
+    occurrenciesAux (C a) color size
+      | a == color   = size
+      | otherwise    = 0
+    occurrenciesAux (Q a b c d) color size
+      = sum (map (\y -> occurrenciesAux y color (size `div` 4)) [a,b,c,d])
 
 -- (7)
 -- Si scriva una funzione Haskell difference che dato un colore c ed un QuadTree q determina la
