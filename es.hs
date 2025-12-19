@@ -1,6 +1,3 @@
-import Data.IntMap (difference)
-import Data.Semigroup (diff)
-import System.Console.Terminfo (Point(col))
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
