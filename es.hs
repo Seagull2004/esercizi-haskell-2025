@@ -692,51 +692,69 @@ quad7 = Q (Q (C 2) (C 1) (C 1) (C 1)) (C 0) (C 3) (Q (C 2) (C 1) (C 1) (C 1))
 -- restituisce 6 (visto che il QuadTree codifica almeno 16 pixel)
 
 -- (9)
---
+-- Si scriva una generalizzazione della funzione foldr delle liste per i termini di tipo QT che abbia il
+-- seguente tipo:
+-- fold :: ( Eq a , Show a ) = > (b - >b - >b - >b - > b ) -> (a - > b ) -> QT a -> b
 
 -- (10)
---
+-- Si scriva una funzione height che dato un QuadTree ne determina l’altezza usando opportunamente
+-- fold
 
 -- (11)
---
+-- Si scriva una funzione length che dato un QuadTree ne determina il numero di nodi usando
+-- opportunamente fold.
 
 -- (12)
---
+-- Si riscriva la funzione simplify dell’Esercizio 2 usando opportunamente fold.
 
 -- (13)
---
+-- Si riscriva la funzione map dell’Esercizio 3 usando opportunamente fold.
 
 -- (14)
---
+-- Si scrivano due funzioni flipHorizontal/flipVertical che costruiscono il QuadTree dell’immagine
+-- simmetrica rispetto all’asse orizzontale/verticale.
 
 -- (15)
---
+-- Si scrivano tre funzioni rotate90Right, rotate90Left e rotate180 che costruiscono il QuadTree
+-- dell’immagine ruotata di−π/2, +π/2 e π.
 
 -- (16)
---
+-- Si scrivano tre predicati isHorizontalSymmetric, isVerticalSymmetric e isCenterSymmetric
+-- che determinano se un QuadTree codifica un’immagine simmetrica rispetto all’asse orizzontale,
+-- all’asse verticale o al centro
 
 -- (17)
---
+-- Si scriva un predicato elem_or_mele che dati un QuadTree te una lista di QuadTrees tsdetermina
+-- se t, o il QuadTree che codifica l’immagine di tribaltata rispetto all’asse orizzontale, sono elementi
+-- della lista ts.
 
 -- (18)
---
+-- Si scriva un predicato isRotatedIn che dati un QuadTree te una lista di QuadTrees tsdetermina
+-- se uno dei QuadTrees che codificano l’immagine di truotata di 0, 90, 180 o 270 gradi `e un elemento
+-- della lista ts
 
 -- (19)
---
+-- Si riscriva la funzione howManyPixels dell’Esercizio 4 usando opportunamente fold.
 
 -- (20)
---
+-- Si riscriva la funzione occurrencies dell’Esercizio 6 usando opportunamente fold.
 
 -- (21)
---
+-- Si scriva una funzione zipWith per QuadTrees che, analogamente alla zipWith per le liste, data
+-- un’operazione binaria ⊕ e due QuadTrees q1 e q2 costruisce il QuadTree che codifica l’immagine
+-- risultante dall’applicazione di ⊕ a tutti i pixel della stessa posizione nelle immagini codificate da
+-- q1 e q2.
 
 -- (22)
---
+-- Si scriva una funzione Haskell insertPict che dati i QuadTrees di due immagini qₜ, q_f ed un Quad-
+-- Tree “maschera” a valori booleani, costruisce il QuadTree dell’immagine risultante mantenendo i
+-- pixel di qₜ in corrispondenza del valore True (della maschera) oppure di q_f in corrispondenza del
+-- valore False.
 
 -- (23)
--- Si scriva una funzione Haskell insertLogo che dati i QuadTrees di due immagini ql, qp ed un
+-- Si scriva una funzione Haskell insertLogo che dati i QuadTrees di due immagini qₗ, qₚ ed un
 -- QuadTree “maschera” a valori booleani, costruisce il QuadTree dell’immagine risultante inserendo
--- la figura ql all’interno del quadrante marcato * di qp scegliendo i pixel di ql o qp in corrispondenza
+-- la figura qₗ all’interno del quadrante marcato * di qₚ scegliendo i pixel di qₗ o qₚ in corrispondenza
 -- del valore True o False della maschera
 --
 -- |---------------|---------------|
