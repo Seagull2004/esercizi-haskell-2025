@@ -1,4 +1,4 @@
-import Distribution.Compat.CharParsing (lower)
+import Distribution.Compat.CharParsing (lower, upper)
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
@@ -838,7 +838,15 @@ upperTriangular (Mat nexp (Q a b c d))
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
+diagonalV1 m = lowerTriangular m && upperTriangular m
 
+diagonalV2 :: (Eq m, Num m) => Mat m -> Bool
+diagonalV2 (Mat nexp (C a))
+  | nexp == 0      = True
+  | a == 0         = True
+  | otherwise      = False
+diagonalV2 (Mat nexp (Q a b c d))
+  = and [diagonalV2 (Mat (nexp-1) a), allZero b, allZero c, diagonalV2 (Mat (nexp-1) d)]
 
 -- (4)
 -- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
