@@ -810,8 +810,8 @@ allZero :: (Eq a, Num a) => QT a -> Bool
 allZero (C a)
   | a == 0    = True
   | otherwise = False
-allZero (Q a b c d)
-  = all allZero [a,b,c,d]
+allZero (Q q1 q2 q3 q4)
+  = all allZero [q1,q2,q3,q4]
 
 -- (1)
 -- Si scriva un predicato lowertriangular che determina se una matrice è triangolare inferiore.
@@ -838,6 +838,7 @@ upperTriangular (Mat nexp (Q a b c d))
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
+
 
 -- (4)
 -- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
