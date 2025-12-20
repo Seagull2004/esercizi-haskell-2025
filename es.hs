@@ -1,3 +1,4 @@
+import Distribution.Compat.CharParsing (lower)
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
@@ -787,24 +788,41 @@ quad7 = Q (Q (C 2) (C 1) (C 1) (C 1)) (C 0) (C 3) (Q (C 2) (C 1) (C 1) (C 1))
 
 ---------------------------------------------------------------------------------
 -- argomento 7: MATRICI MEDIANTE QUAD TREES
--- Grazie ai Quad Trees introdotti nella sezione precedente si possono implementare certe operazioni matriciali, nel caso dei linguaggi funzionali puri ovviamente, in modo molto pi`u efficiente. 
--- Si implementino matrici 2n × 2n utilizzando il seguente tipo di dato astratto (polimorfo) 
+-- Grazie ai Quad Trees introdotti nella sezione precedente si possono implementare certe operazioni matriciali, nel caso dei linguaggi funzionali puri ovviamente, in modo molto più efficiente. 
+-- Si implementino matrici 2ⁿ × 2ⁿ utilizzando il seguente tipo di dato astratto (polimorfo) 
 --
--- data ( Eq a , Num a , Show a ) = > Mat a = Mat { 
+-- data Mat a = Mat { 
 --   nexp :: Int ,
 --   mat :: QT a
--- }
--- deriving ( Eq , Show )
+-- } deriving ( Eq , Show )
 --
 -- dove nel campo mat non metteremo mai solo “termini di tipo QT” ma QuadTrees “propri”.
 --
 -- difficoltà: 1..12  base
 --             12..14 fold for beginners
+data Mat a = Mat { 
+  nexp :: Int ,
+  mat :: QT a
+} deriving (Eq , Show)
 
 -- (1)
 -- Si scriva un predicato lowertriangular che determina se una matrice è triangolare inferiore.
 -- Attenti a cosa devono restituire
 -- lowertriangular $ Mat 0 (C 2) e lowertriangular $ Mat 1 (C 2).
+-- lowerTriangular :: (Eq a) => Mat a -> Bool
+lowerTriangular (Mat nexp (C a))
+  | nexp == 0      = True
+  | a == 0         = True
+  | otherwise      = False
+lowerTriangular (Mat nexp (Q a b c d)) 
+  = lowerTriangular (Mat (nexp-1) a) && allZero b && lowerTriangular (Mat (nexp-1) d)
+  where
+    -- allZero :: (Eq a) => QT a -> Bool
+    allZero (C a)
+      | a == 0    = True
+      | otherwise = False
+    allZero (Q a b c d)
+      = all allZero [a,b,c,d]
 
 -- (2)
 -- Si scriva un predicato uppertriangular che determina se una matrice è triangolare superiore.
