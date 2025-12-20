@@ -805,40 +805,36 @@ data Mat a = Mat {
   mat :: QT a
 } deriving (Eq , Show)
 
+
+allZero :: (Eq a, Num a) => QT a -> Bool
+allZero (C a)
+  | a == 0    = True
+  | otherwise = False
+allZero (Q a b c d)
+  = all allZero [a,b,c,d]
+
 -- (1)
 -- Si scriva un predicato lowertriangular che determina se una matrice è triangolare inferiore.
 -- Attenti a cosa devono restituire
 -- lowertriangular $ Mat 0 (C 2) e lowertriangular $ Mat 1 (C 2).
 -- lowerTriangular :: (Eq a) => Mat a -> Bool
+lowerTriangular :: (Eq m, Num m) => Mat m -> Bool
 lowerTriangular (Mat nexp (C a))
   | nexp == 0      = True
   | a == 0         = True
   | otherwise      = False
 lowerTriangular (Mat nexp (Q a b c d)) 
   = lowerTriangular (Mat (nexp-1) a) && allZero b && lowerTriangular (Mat (nexp-1) d)
-  where
-    -- allZero :: (Eq a) => QT a -> Bool
-    allZero (C a)
-      | a == 0    = True
-      | otherwise = False
-    allZero (Q a b c d)
-      = all allZero [a,b,c,d]
 
 -- (2)
 -- Si scriva un predicato uppertriangular che determina se una matrice è triangolare superiore.
+upperTriangular :: (Eq m, Num m) => Mat m -> Bool
 upperTriangular (Mat nexp (C a))
   | nexp == 0      = True
   | a == 0         = True
   | otherwise      = False
 upperTriangular (Mat nexp (Q a b c d))
   = upperTriangular (Mat (nexp-1) a) && allZero c && upperTriangular (Mat (nexp-1) d)
-  where
-    -- allZero :: (Eq a) => QT a -> Bool
-    allZero (C a)
-      | a == 0    = True
-      | otherwise = False
-    allZero (Q a b c d)
-      = all allZero [a,b,c,d]
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
