@@ -850,6 +850,7 @@ diagonalV2 (Mat nexp (Q a b c d))
 
 -- (4)
 -- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
+matSum :: (Num a) => Mat a -> Mat a -> Mat a
 matSum (Mat nexp1 (C a)) (Mat nexp2 (C b))                     = Mat nexp1 (C (a + b))
 matSum (Mat nexp1 (C a)) (Mat nexp2 (Q b1 b2 b3 b4))           = matSum (Mat nexp1 (Q (C a) (C a) (C a) (C a))) (Mat nexp2 (Q b1 b2 b3 b4))
 matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (C b))           = matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (Q (C b) (C b) (C b) (C b)))
