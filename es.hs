@@ -141,8 +141,8 @@ creaListaCoppieV1 [] = []
 creaListaCoppieV1 xs = creaListaCoppieAux xs (sum xs)
   where
     creaListaCoppieAux :: [Int] -> Int -> [(Int,Int)]
-    creaListaCoppieAux [] tot = []
-    creaListaCoppieAux (x:xs) tot = (x, tot - x) : creaListaCoppieAux xs (tot - x)
+    creaListaCoppieAux [] inc = []
+    creaListaCoppieAux (x:xs) inc = (x, inc - x) : creaListaCoppieAux xs (inc - x)
 
 creaListaCoppieV2 :: [Int] -> [(Int,Int)]
 creaListaCoppieV2 [] = []
@@ -151,11 +151,18 @@ creaListaCoppieV2 (x:xs) = (x, foldr (+) 0 xs) : creaListaCoppieV2 xs
 creaListaCoppieV3 :: [Int] -> [(Int,Int)]
 creaListaCoppieV3 [] = []
 creaListaCoppieV3 (x:xs) = (x, sum xs) : creaListaCoppieV3 xs
+
 -- (6)
 -- Scrivere una funzione che costruisce, a partire da una lista di numeri interi (provate poi a generalizzare), una lista di coppie in cui 
 --  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
 --  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi antecedenti della lista originale
 -- [farlo con foldr o foldl è difficile]
+creaListaCoppieAntV1 :: [Int] -> [(Int,Int)]
+creaListaCoppieAntV1 [] = []
+creaListaCoppieAntV1 xs = creaListaCoppieAntAux xs 0
+  where
+    creaListaCoppieAntAux [] inc     = []
+    creaListaCoppieAntAux (x:xs) inc = (x, inc) : creaListaCoppieAntAux xs (inc + x)
 
 -- (7)
 -- Si scriva una funzione Haskell shiftToZero che data una lista costruisce un nuova lista che contiene gli elementi diminuiti del valore minimo. 
