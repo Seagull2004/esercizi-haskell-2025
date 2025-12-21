@@ -850,6 +850,29 @@ diagonalV2 (Mat nexp (Q a b c d))
 
 -- (4)
 -- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
+matSum (Mat nexp1 (C a)) (Mat nexp2 (C b))                     = Mat nexp1 (C (a + b))
+matSum (Mat nexp1 (C a)) (Mat nexp2 (Q b1 b2 b3 b4))           = matSum (Mat nexp1 (Q (C a) (C a) (C a) (C a))) (Mat nexp2 (Q b1 b2 b3 b4))
+matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (C b))           = matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (Q (C b) (C b) (C b) (C b)))
+matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (Q b1 b2 b3 b4)) 
+  = Mat nexp1 (Q 
+  (mat (matSum (Mat (nexp1-1) a1) (Mat (nexp2-1) b1)))
+  (mat (matSum (Mat (nexp1-1) a2) (Mat (nexp2-1) b2))) 
+  (mat (matSum (Mat (nexp1-1) a3) (Mat (nexp2-1) b3))) 
+  (mat (matSum (Mat (nexp1-1) a4) (Mat (nexp2-1) b4)))
+  )
+
+d = C 2
+t = C 3
+qu = C 4
+c = C 5
+s = C 6
+e = C 7
+o = C 8
+n = C 9
+
+mat1 = (Mat 2 (Q d (Q z u d qu) u t)) 
+mat2 = (Mat 2 (Q (Q s t d u) qu z d))
+
 
 -- (5)
 -- Si scriva una funzione matMul che date 2 matrici calcoli la matrice prodotto.
