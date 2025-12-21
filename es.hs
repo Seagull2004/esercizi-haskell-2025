@@ -870,8 +870,14 @@ e = C 7
 o = C 8
 n = C 9
 
-mat1 = (Mat 2 (Q d (Q z u d qu) u t)) 
-mat2 = (Mat 2 (Q (Q s t d u) qu z d))
+mat1 = Mat 2 (Q d (Q z u d qu) u t)
+mat2 = Mat 2 (Q (Q s t d u) qu z d) -- mat1 + mat2 funziona come mi sarei aspettato ✔
+mat3 = Mat 2 (Q (Q u u d d) qu d u)
+mat4 = Mat 2 (Q (Q s d u z) d o z) -- mat3 + mat4 funziona come mi sarei aspettato ✔
+mat5 = Mat 1 (C 1)
+mat6 = Mat 1 (Q t u s n) -- mat3 + mat4 funziona come mi sarei aspettato ✔
+mat7 = Mat 2 (C 1)
+mat8 = Mat 2 (Q (Q s d u z) s u t) -- tutto ok anche per mat7 + mat8 ✔
 
 
 -- (5)
