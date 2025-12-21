@@ -157,6 +157,7 @@ creaListaCoppieV3 (x:xs) = (x, sum xs) : creaListaCoppieV3 xs
 --  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
 --  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi antecedenti della lista originale
 -- [farlo con foldr o foldl è difficile]
+-- TODO: è possibile farlo con foldl?
 creaListaCoppieAntV1 :: [Int] -> [(Int,Int)]
 creaListaCoppieAntV1 [] = []
 creaListaCoppieAntV1 xs = creaListaCoppieAntAux xs 0
