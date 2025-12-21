@@ -1,3 +1,4 @@
+import Control.Monad.Trans.Cont (shift)
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
@@ -167,9 +168,10 @@ creaListaCoppieAntV1 xs = creaListaCoppieAntAux xs 0
 
 -- (7)
 -- Si scriva una funzione Haskell shiftToZero che data una lista costruisce un nuova lista che contiene gli elementi diminuiti del valore minimo. 
--- A titolo di esempio, shiftToZero [5,4,2,6] => [3,2,0,4]. La funzione non deve visitare gli elementi della lista pi`u di una volta (si sfrutti la laziness).
+-- A titolo di esempio, shiftToZero [5,4,2,6] => [3,2,0,4]. La funzione non deve visitare gli elementi della lista più di una volta (si sfrutti la laziness).
 -- [farlo con foldr o foldl è difficile]
-
+shiftToZero [] = []
+shiftToZero (x:xs) = map (\y -> y - foldr min x xs) (x:xs)
 
 ---------------------------------------------------------------------------------
 -- argomento 3: MATRICI
