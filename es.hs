@@ -1,4 +1,3 @@
-import Distribution.Compat.CharParsing (lower, upper)
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
