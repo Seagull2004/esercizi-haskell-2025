@@ -136,6 +136,13 @@ minOddV2 xs = take 2 (quickSort (filter odd xs))
 -- Scrivere una funzione che costruisce, a partire da una lista di numeri interi, una lista di coppie in cui 
 --  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
 --  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi conseguenti della lista originale
+creaListaCoppie :: [Int] -> [(Int,Int)]
+creaListaCoppie [] = []
+creaListaCoppie xs = creaListaCoppieAux xs (sum xs)
+  where
+    creaListaCoppieAux :: [Int] -> Int -> [(Int,Int)]
+    creaListaCoppieAux [] tot = []
+    creaListaCoppieAux (x:xs) tot = (x, tot - x) : creaListaCoppieAux xs (tot - x)
 
 -- (6)
 -- Scrivere una funzione che costruisce, a partire da una lista di numeri interi (provate poi a generalizzare), una lista di coppie in cui 
