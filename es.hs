@@ -497,46 +497,73 @@ bstElem t n
 --             15..  fold & co
 
 -- (1)
---
+-- Si scriva una generalizzazione della funzione foldr delle liste per Alberi Generici che abbia il
+-- seguente tipo:
+-- treefold :: ( Eq a , Show a ) = > (a - >[ b ] - > b ) -> b -> Tree a -> b
 
 -- (2)
---
+-- Si scriva una funzione height per calcolare l’altezza di un albero usando opportunamente la
+-- treefold dell’Esercizio 1. Si attribuisca altezza -1 all’albero vuoto.
+-- Si colga l’occasione per verificare che treefold sia stata definita correttamente e quindi
+-- height ( Node ’a ’ $ replicate n Void )
+-- restituisca sempre 0 al variare di n.
 
 -- (3)
---
+-- Si scriva una funzione simplify per eliminare i figli Void ridondanti usando opportunamente la
+-- treefold dell’Esercizio 1.
 
 -- (4)
---
+-- Si scrivano le generalizzazioni delle funzioni foldr e foldl delle liste per Alberi Generici aventi i
+-- seguenti tipi (abbiamo bisogno di due “zeri” corrispondenti all’albero vuoto e alla lista di alberi
+-- vuota):
+-- treefoldr treefoldl :: :: ( Eq ( Eq a , Show a , Show a ) a ) = > = > (a - >b - > c ) - >c - >( c - >b - > b ) - >b - > Tree (b - >a - > c ) - >c - >( c - >b - > b ) - >b - > Tree a - > c
+-- a - > c
+-- Con queste fold non c’e bisogno di costruire la lista intermedia a cui applicare la funzione di
+-- “aggregazione” ma si esegue il lavoro man mano.
 
 -- (5)
---
+-- Si riscriva la funzione height per calcolare l’altezza di un albero usando opportunamente la
+-- treefoldr dell’Esercizio 4.
 
 -- (6)
---
+-- Si riscriva la funzione simplify per eliminare i figli Void ridondanti usando opportunamente la
+-- treefoldr dell’Esercizio 4.
 
 -- (7)
---
+-- Si scriva una funzione degree che restituisce il grado di un albero (il massimo del numero di figli
+-- per ogni nodo).
 
 -- (8)
---
+-- Si scriva una funzione transpose che restituisce il trasposto di un albero (per ogni nodo i trasposti
+-- dei figli in ordine inverso).
 
 -- (9)
---
+-- Si scriva un predicato issymm che stabilisce se un albero ha una forma simmetrica (cio`e `e uguale,
+-- non considerando il contenuto, al suo trasposto)
 
 -- (10)
---
+-- Si scriva una funzione normalize che dato un albero con valori nella classe Integral costruisca un
+-- nuovo albero che in ogni nodo contenga, al posto del valore originale, tale valore moltiplicato per
+-- l’inverso dell’altezza. (Si presti attenzione nell’espressione della moltiplicazione in modo da avere
+-- tipi compatibili).
 
 -- (11)
---
+-- Si scriva una funzione annotate che costruisca un nuovo albero che in ogni nodo contenga, al posto
+-- del valore originale, una coppia composta dal medesimo valore e dall’altezza del nodo stesso.
 
 -- (12)
---
+-- Si scriva un predicato iscorrect che determina se un albero `e un albero di parsing secondo le
+-- regole di una grammatica codificata mediante una funzione che, dato un simbolo, restituisce la
+-- lista delle possibili espansioni (stringhe di simboli) secondo le produzioni.
 
 -- (13)
---
+-- Si scriva una funzione diameter che determina il diametro di un albero. Il diametro di un albero `e
+-- la lunghezza del massimo cammino fra due nodi, indipendentemente dall’orientamento degli archi.
 
 -- (14)
---
+-- Si scriva una funzione maxPathWeight che, dato un albero di valori numerici positivi, determina il
+-- massimo peso di tutti i cammini, indipendentemente dall’orientamento degli archi. Il peso di un
+-- cammino, `e la somma dei valori dei nodi del cammino.
 
 -- (15)
 --
@@ -579,7 +606,6 @@ bstElem t n
 -- data QT a = C a | Q (QT a) (QT a) (QT a) (QT a) 
 --   deriving (Eq , Show) 
 --
--- WARNING :
 -- Con questa struttura si possono costruire termini che non corrispondono propriamente ad un QuadTree. Ad esempio 
 -- let u = C 1 in Q u u u u 
 -- non è la codifica di un’immagine, visto che dovrebbe essere semplicemente C 1. Chiamerò "termini di tipo QT" questi casi patologici, mentre QuadTrees quelli che corrispondono correttamente alla codifica di un'immagine. Possiamo subito notare dall'esempio di prima che partendo da 4 QuadTrees non si garantisce di costruire con il costruttore Q un QuadTree, ma solo un termine di tipo QT.
