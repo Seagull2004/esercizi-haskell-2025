@@ -242,15 +242,17 @@ colAltSumsV1 (line:rest) = colSumAux rest line True
 
 -- (4)
 -- Si scriva una funzione colMinMax che, data una matrice implementata come liste di liste per righe, calcola il vettore delle coppie (minimo,massimo) delle colonne della matrice
+colMinMax :: (Ord a) => [[a]] -> [(a,a)]
 colMinMax []     = []
-colMinMax (l:ls) = foldl (zipWith updatePair) (vectToPair l) ls
+colMinMax (l:ls) = foldl (zipWith updatePair) (vectToPairs l) ls
   where
     updatePair (min,max) value
       | value < min = (value, max)
       | value > max = (min, value)
       | otherwise   = (min,max)
-    vectToPair [] = []
-    vectToPair xs = map (\y -> (y,y)) xs
+    vectToPairs :: [a] -> [(a,a)]
+    vectToPairs [] = []
+    vectToPairs xs = map (\y -> (y,y)) xs
 
 -- (5)
 -- Si scriva un predicato lowertriangular che determina se una matrice (quadrata) è triangolare inferiore. A titolo di esempio, lowertriangular([[1,0,0],[2,-3,0],[4,5,6]]) restituisce True, mentre lowertriangular([[0,0,1],[2,-3,0],[4,5,6]]) restituisce False
