@@ -276,6 +276,16 @@ upperTriangular mat = fst (foldl upperTriangularAux (True, 0) mat)
 
 -- (7)
 -- Si scriva un predicato diagonal che determina se una matrice (quadrata) è diagonale.
+diagonalV1 :: (Eq a, Num a) => [[a]] -> Bool
+diagonalV1 mat = lowerTriangular mat && upperTriangular mat
+
+diagonalV2 :: (Eq a, Num a) => [[a]] -> Bool
+diagonalV2 mat = fst (foldl diagonalAux (True, 0) mat)
+  where
+    diagonalAux :: (Eq a, Num a) => (Bool, Int) -> [a] -> (Bool, Int)
+    diagonalAux (isDiagonal, rowNr) line
+      | all (== 0) (take rowNr line ++ drop (rowNr+1) line) = (isDiagonal && True, rowNr + 1)
+      | otherwise                                           = (False, rowNr + 1)
 
 -- (8)
 -- Una matrice quadrata M di ordine n si dice convergente con raggio r se il modulo della somma degli elementi di ogni riga, escluso quello sulla diagonale, è inferiore a r. Si scriva un predicato convergent m r che determina se una matrice (quadrata) m è convergente con raggio r.
@@ -886,15 +896,15 @@ upperTriangularQT (Mat nexp (Q a b c d))
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
-diagonalV1 m = lowerTriangularQT m && upperTriangularQT m
+diagonalQTV1 m = lowerTriangularQT m && upperTriangularQT m
 
-diagonalV2 :: (Eq m, Num m) => Mat m -> Bool
-diagonalV2 (Mat nexp (C a))
+diagonalQTV2 :: (Eq m, Num m) => Mat m -> Bool
+diagonalQTV2 (Mat nexp (C a))
   | nexp == 0      = True
   | a == 0         = True
   | otherwise      = False
-diagonalV2 (Mat nexp (Q a b c d))
-  = and [diagonalV2 (Mat (nexp-1) a), allZero b, allZero c, diagonalV2 (Mat (nexp-1) d)]
+diagonalQTV2 (Mat nexp (Q a b c d))
+  = and [diagonalQTV2 (Mat (nexp-1) a), allZero b, allZero c, diagonalQTV2 (Mat (nexp-1) d)]
 
 -- (4)
 -- Si scriva una funzione matSum che date 2 matrici calcoli la matrice somma.
