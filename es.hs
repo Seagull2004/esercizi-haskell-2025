@@ -256,6 +256,13 @@ colMinMax (l:ls) = foldl (zipWith updatePair) (vectToPairs l) ls
 
 -- (5)
 -- Si scriva un predicato lowertriangular che determina se una matrice (quadrata) è triangolare inferiore. A titolo di esempio, lowertriangular([[1,0,0],[2,-3,0],[4,5,6]]) restituisce True, mentre lowertriangular([[0,0,1],[2,-3,0],[4,5,6]]) restituisce False
+lowerTriangular :: (Eq a, Num a) => [[a]] -> Bool
+lowerTriangular mat = fst (foldl lowerTriangularAux (True, 1) mat)
+  where
+    lowerTriangularAux :: (Eq a, Num a) => (Bool, Int) -> [a] -> (Bool, Int)
+    lowerTriangularAux (isTriangular, rowNr) line
+      | all (== 0) (drop rowNr line) = (isTriangular && True, rowNr + 1)
+      | otherwise                    = (False, rowNr + 1)
 
 -- (6)
 -- Si scriva un predicato uppertriangular che determina se una matrice (quadrata) è triangolare superiore
@@ -852,13 +859,13 @@ allZero (Q q1 q2 q3 q4)
 -- Attenti a cosa devono restituire
 -- lowertriangular $ Mat 0 (C 2) e lowertriangular $ Mat 1 (C 2).
 -- lowerTriangular :: (Eq a) => Mat a -> Bool
-lowerTriangular :: (Eq m, Num m) => Mat m -> Bool
-lowerTriangular (Mat nexp (C a))
+lowerTriangularQT :: (Eq m, Num m) => Mat m -> Bool
+lowerTriangularQT (Mat nexp (C a))
   | nexp == 0      = True
   | a == 0         = True
   | otherwise      = False
-lowerTriangular (Mat nexp (Q a b c d)) 
-  = lowerTriangular (Mat (nexp-1) a) && allZero b && lowerTriangular (Mat (nexp-1) d)
+lowerTriangularQT (Mat nexp (Q a b c d))
+  = lowerTriangularQT (Mat (nexp-1) a) && allZero b && lowerTriangularQT (Mat (nexp-1) d)
 
 -- (2)
 -- Si scriva un predicato uppertriangular che determina se una matrice è triangolare superiore.
@@ -872,7 +879,7 @@ upperTriangular (Mat nexp (Q a b c d))
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
-diagonalV1 m = lowerTriangular m && upperTriangular m
+diagonalV1 m = lowerTriangularQT m && upperTriangular m
 
 diagonalV2 :: (Eq m, Num m) => Mat m -> Bool
 diagonalV2 (Mat nexp (C a))
