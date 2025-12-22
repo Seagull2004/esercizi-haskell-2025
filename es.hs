@@ -266,6 +266,13 @@ lowerTriangular mat = fst (foldl lowerTriangularAux (True, 1) mat)
 
 -- (6)
 -- Si scriva un predicato uppertriangular che determina se una matrice (quadrata) è triangolare superiore
+upperTriangular :: (Eq a, Num a) => [[a]] -> Bool
+upperTriangular mat = fst (foldl upperTriangularAux (True, 0) mat)
+  where
+    upperTriangularAux :: (Eq a, Num a) => (Bool, Int) -> [a] -> (Bool, Int)
+    upperTriangularAux (isTriangular, rowNr) line
+      | all (== 0) (take rowNr line) = (isTriangular && True, rowNr + 1)
+      | otherwise                    = (False, rowNr + 1)
 
 -- (7)
 -- Si scriva un predicato diagonal che determina se una matrice (quadrata) è diagonale.
@@ -869,17 +876,17 @@ lowerTriangularQT (Mat nexp (Q a b c d))
 
 -- (2)
 -- Si scriva un predicato uppertriangular che determina se una matrice è triangolare superiore.
-upperTriangular :: (Eq m, Num m) => Mat m -> Bool
-upperTriangular (Mat nexp (C a))
+upperTriangularQT :: (Eq m, Num m) => Mat m -> Bool
+upperTriangularQT (Mat nexp (C a))
   | nexp == 0      = True
   | a == 0         = True
   | otherwise      = False
-upperTriangular (Mat nexp (Q a b c d))
-  = upperTriangular (Mat (nexp-1) a) && allZero c && upperTriangular (Mat (nexp-1) d)
+upperTriangularQT (Mat nexp (Q a b c d))
+  = upperTriangularQT (Mat (nexp-1) a) && allZero c && upperTriangularQT (Mat (nexp-1) d)
 
 -- (3)
 -- Si scriva un predicato diagonal che determina se una matrice è diagonale.
-diagonalV1 m = lowerTriangularQT m && upperTriangular m
+diagonalV1 m = lowerTriangularQT m && upperTriangularQT m
 
 diagonalV2 :: (Eq m, Num m) => Mat m -> Bool
 diagonalV2 (Mat nexp (C a))
