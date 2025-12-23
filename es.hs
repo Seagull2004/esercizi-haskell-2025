@@ -486,20 +486,39 @@ bstElem t n
 ---------------------------------------------------------------------------------
 -- argomento 5: ALBERI GENERICI
 -- Si definiscano Alberi “generici” col seguente tipo di dato astratto (polimorfo) 
--- data ( Eq a , Show a ) = > Tree a = Void | Node a [ Tree a ] 
+--
+-- data Tree a = Void | Node a [Tree a] 
 --   deriving ( Eq , Show ) 
--- Con questo tipo di dato ci sono vari possibili modi per rappresentare una foglia: (Node x []), (Node x [Void]), (Node x [Void, Void]), . . . , (Node x [Void, . . . Void]), . . . . Rinunciando all’albero vuoto si avrebbe una formulazione unica come 
--- data ( Eq a , Show a ) = > NonEmptyTree a = Node a [ NonEmptyTree a ] 
---   deriving ( Eq , Show ) 
+--
+-- Con questo tipo di dato ci sono vari possibili modi per rappresentare una foglia: 
+-- + (Node x []), 
+-- + (Node x [Void]), 
+-- + (Node x [Void, Void]), 
+-- + ...,
+-- + (Node x [Void, . . . Void]), 
+-- + ...
+--
+-- Rinunciando all’albero vuoto si avrebbe una formulazione unica come
+-- data (Eq a , Show a) => NonEmptyTree a = Node a [NonEmptyTree a]
+--   deriving (Eq , Show)
+-- 
 -- ma nel seguito abbiamo bisogno dell’albero vuoto e andremo a convivere con la rappresentazione non univoca.
 --
 -- difficoltà: 1..14 fold for beginners
 --             15..  fold & co
+data Tree a = VoidTree | NodeTree a [Tree a] 
+  deriving (Eq , Show)
 
 -- (1)
 -- Si scriva una generalizzazione della funzione foldr delle liste per Alberi Generici che abbia il
 -- seguente tipo:
--- treefold :: ( Eq a , Show a ) = > (a - >[ b ] - > b ) -> b -> Tree a -> b
+treefold :: (Eq a, Show a) => (a -> [b] -> b) -> b -> Tree a -> b
+treefold _ accumulatore VoidTree = accumulatore
+treefold f accumulatore (NodeTree a ts) =
+  f a (map (treefold f accumulatore) ts)
+
+x = NodeTree 10 [NodeTree 4 [], NodeTree 3 []] 
+risultato = treefold (\a b -> a + sum b) 0 x -- somma tutti i nodi dell'albero
 
 -- (2)
 -- Si scriva una funzione height per calcolare l’altezza di un albero usando opportunamente la
