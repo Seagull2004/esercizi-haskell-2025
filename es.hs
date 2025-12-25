@@ -526,6 +526,15 @@ risultato = treefold (\a b -> a + sum b) 0 x -- somma tutti i nodi dell'albero
 -- Si colga l’occasione per verificare che treefold sia stata definita correttamente e quindi
 -- height ( Node ’a ’ $ replicate n Void )
 -- restituisca sempre 0 al variare di n.
+treeHeight :: (Eq a, Show a) => Tree a -> Int
+treeHeight VoidTree = -1
+treeHeight t = treefold increaseHeight (-1) t
+  where
+    increaseHeight :: (Eq a, Show a) => a -> [Int] -> Int
+    increaseHeight x [] = 0
+    increaseHeight x tx = 1 + maximum tx
+
+y = NodeTree 150 (replicate 10 VoidTree)
 
 -- (3)
 -- Si scriva una funzione simplify per eliminare i figli Void ridondanti usando opportunamente la
