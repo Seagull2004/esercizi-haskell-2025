@@ -536,9 +536,18 @@ treeHeight t = treefold increaseHeight (-1) t
 
 y = NodeTree 150 (replicate 10 VoidTree)
 
+
 -- (3)
 -- Si scriva una funzione simplify per eliminare i figli Void ridondanti usando opportunamente la
 -- treefold dell’Esercizio 1.
+treeSimplify VoidTree = VoidTree
+treeSimplify t = treefold simiplifyChildrenList VoidTree t
+  where 
+    simiplifyChildrenList :: (Eq a, Show a) => a -> [Tree a] -> Tree a
+    simiplifyChildrenList x ts = NodeTree x (removeVoidInList ts) 
+    removeVoidInList [] = []
+    removeVoidInList (VoidTree:ts) = removeVoidInList ts
+    removeVoidInList (x:ts) = x : removeVoidInList ts
 
 -- (4)
 -- Si scrivano le generalizzazioni delle funzioni foldr e foldl delle liste per Alberi Generici aventi i
