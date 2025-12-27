@@ -1,4 +1,5 @@
 import Control.Monad.Trans.Cont (shift)
+import Data.IntMap (insert)
 -- WARNING:
 -- gli esercizi qui sotto riportati sono tratti dal pdf:
 -- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
@@ -366,6 +367,13 @@ bstElem t n
 
 -- (5)
 -- Si scriva una funzione per eseguire l’inserimento di un dato x in un albero t.
+insertInTree :: (Ord a) => BST a -> a -> BST a
+insertInTree Void x = Node x Void Void
+insertInTree t x 
+  | x > val t = Node (val t) (left t) (insertInTree (right t) x)
+  | otherwise = Node (val t) (insertInTree (left t) x) (right t)
+
+bst = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 Void Void) (Node 30 Void Void))
 
 -- (6)
 -- Si scriva una funzione bst2List che calcola la lista ordinata degli elementi di un BST. Ci si assicuri di scrivere una funzione lineare.
