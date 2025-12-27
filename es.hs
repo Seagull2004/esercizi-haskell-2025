@@ -392,6 +392,8 @@ orderWithBST xs = bst2List (list2bst xs)
 -- (8)
 -- Si scriva una funzione filtertree p t che costruisce una lista (ordinata) di tutti gli elementi
 -- dell’albero t che soddisfano il predicato p.
+filtertree :: (Eq a, Ord a) => (a -> Bool) -> BST a -> [a]
+filtertree p t = filter p (bst2List t)
 
 -- (9)
 -- Si scriva una funzione annotate che costruisca un nuovo BST che in ogni nodo contenga, al posto
