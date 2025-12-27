@@ -364,7 +364,6 @@ bstElem t n
   | val t == n  = True
   | otherwise   = bstElem (left t) n || bstElem (right t) n
 
-
 -- (5)
 -- Si scriva una funzione per eseguire l’inserimento di un dato x in un albero t.
 insertInTree :: (Ord a) => BST a -> a -> BST a
@@ -377,6 +376,9 @@ bst = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 V
 
 -- (6)
 -- Si scriva una funzione bst2List che calcola la lista ordinata degli elementi di un BST. Ci si assicuri di scrivere una funzione lineare.
+bst2List :: BST a -> [a]
+bst2List Void = []
+bst2List t = bst2List (left t) ++ [val t] ++ bst2List (right t)
 
 -- (7)
 -- Si scriva una (semplice) funzione di ordinamento di liste come combinazione di funzioni fatte nei
