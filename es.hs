@@ -383,6 +383,11 @@ bst2List t = bst2List (left t) ++ [val t] ++ bst2List (right t)
 -- (7)
 -- Si scriva una (semplice) funzione di ordinamento di liste come combinazione di funzioni fatte nei
 -- precedenti esercizi
+orderWithBST :: (Ord a) => [a] -> [a]
+orderWithBST [] = []
+orderWithBST xs = bst2List (list2bst xs)
+  where
+    list2bst = foldl insertInTree Void
 
 -- (8)
 -- Si scriva una funzione filtertree p t che costruisce una lista (ordinata) di tutti gli elementi
