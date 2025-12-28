@@ -373,6 +373,7 @@ insertInTree t x
   | otherwise = Node (val t) (insertInTree (left t) x) (right t)
 
 bst = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 Void Void) (Node 30 Void Void))
+bst2 = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 Void Void) (Node 30 Void (Node 40 Void Void)))
 
 -- (6)
 -- Si scriva una funzione bst2List che calcola la lista ordinata degli elementi di un BST. Ci si assicuri di scrivere una funzione lineare.
@@ -398,9 +399,28 @@ filtertree p t = filter p (bst2List t)
 -- (9)
 -- Si scriva una funzione annotate che costruisca un nuovo BST che in ogni nodo contenga, al posto
 -- del valore originale, una coppia composta dal medesimo valore e dall’altezza del nodo stesso (la
--- lunghezza del massimo cammino, cio`e 1 + max(height(sx),height(dx)). Si scelga di attribuire
+-- lunghezza del massimo cammino, cioè 1 + max(height(sx),height(dx)). Si scelga di attribuire
 -- all’albero vuoto 0 o -1 a seconda delle preferenze.
--- [Con una opportuna scelta dell’ordine di ricorsione si pu`o fare in tempo lineare]
+-- [Con una opportuna scelta dell’ordine di ricorsione si può fare in tempo lineare]
+annotate :: BST a -> BST (a, Int)
+annotate (Node n Void Void)   = Node (n, 0) Void Void
+annotate (Node n l Void)      = Node (n, 1 + leftH1) leftTree1 Void
+  where
+    leftTree1 = annotate l
+    leftH1 = snd (val leftTree1)
+annotate (Node n Void r)      = Node (n, 1 + rightH2) Void rightTree2
+  where
+    rightTree2 = annotate r
+    rightH2 = snd (val rightTree2)
+annotate t                    = Node (val t, 1 + max leftH rightH) leftTree rightTree 
+  where
+    leftTree = annotate (left t)
+    rightTree = annotate (right t)
+    leftH = snd (val leftTree)
+    rightH = snd (val rightTree)
+
+bst3 = Node 10 Void (Node 11 Void Void)
+
 
 -- (10)
 -- Si scriva un predicato (funzione a valori booleani) almostBalanced per determinare se un albero
