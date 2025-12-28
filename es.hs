@@ -404,14 +404,14 @@ filtertree p t = filter p (bst2List t)
 -- [Con una opportuna scelta dell’ordine di ricorsione si può fare in tempo lineare]
 annotate :: BST a -> BST (a, Int)
 annotate (Node n Void Void)   = Node (n, 0) Void Void
-annotate (Node n l Void)      = Node (n, 1 + leftH1) leftTree1 Void
+annotate (Node n l Void)      = Node (n, 1 + leftH) leftTree Void
   where
-    leftTree1 = annotate l
-    leftH1 = snd (val leftTree1)
-annotate (Node n Void r)      = Node (n, 1 + rightH2) Void rightTree2
+    leftTree = annotate l
+    leftH = snd (val leftTree)
+annotate (Node n Void r)      = Node (n, 1 + rightH) Void rightTree
   where
-    rightTree2 = annotate r
-    rightH2 = snd (val rightTree2)
+    rightTree = annotate r
+    rightH = snd (val rightTree)
 annotate t                    = Node (val t, 1 + max leftH rightH) leftTree rightTree 
   where
     leftTree = annotate (left t)
