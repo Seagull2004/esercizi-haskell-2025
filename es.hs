@@ -202,10 +202,9 @@ matColSumV1 (line:rest) = colSumAux rest line
           sumVect :: (Num a) => [a] -> [a] -> [a]
           sumVect = zipWith (+)
 
--- TODO:
--- matColSumV2 [] = []
--- matColSumV2 ([]:_) = []
--- matColSumV2 mat = sum (map head mat) : matColSumV2 (map tail mat)
+matColSumV2 [] = []
+matColSumV2 ([]:_) = []
+matColSumV2 mat = sum (map head mat) : matColSumV2 (map tail mat)
 
 -- (3)
 -- Si scriva una funzione colaltsums che, data una matrice implementata come liste di liste per righe, calcola il vettore delle somme a segni alternati delle colonne della matrice.
