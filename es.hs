@@ -1,9 +1,3 @@
-import Control.Monad.Trans.Cont (shift)
-import Data.IntMap (insert)
--- WARNING:
--- gli esercizi qui sotto riportati sono tratti dal pdf:
--- ~/vault/01 - PROJECTS/2526-1 LINGUAGGI DI PROGRAMMAZIONE/materiale/esercizi_haskell/EserciziProgrammazioneHaskell.pdf
---
 ---------------------------------------------------------------------------------
 -- argomento 1: NUMERI
 -- Si ricordi che si dispone di varie funzioni aritmetiche polimorfe nel Prelude, come 
@@ -208,19 +202,10 @@ matColSumV1 (line:rest) = colSumAux rest line
           sumVect :: (Num a) => [a] -> [a] -> [a]
           sumVect = zipWith (+)
 
+-- TODO:
 -- matColSumV2 [] = []
 -- matColSumV2 ([]:_) = []
 -- matColSumV2 mat = sum (map head mat) : matColSumV2 (map tail mat)
-
-pippo = [[1,2,3,4],
-         [1,2,3,4],
-         [1,2,3,4],
-         [1,2,3,4]]
-
-pluto = [[5,7,9,8],
-         [1,3,4,2],
-         [9,3,10,7],
-         [11,12,0,3]]
 
 -- (3)
 -- Si scriva una funzione colaltsums che, data una matrice implementata come liste di liste per righe, calcola il vettore delle somme a segni alternati delle colonne della matrice.
@@ -322,13 +307,6 @@ data BST a = Void | Node {
   }
   deriving ( Eq , Ord , Read , Show )
 
-
-gioia = Node 10 (Node 5 Void Void) (Node 3 Void Void)
-yei = Node 30 (Node 5 (Node 40 Void Void) Void) (Node 3 Void Void)
-
-yai = Node 30 (Node 3 (Node 40 Void Void) Void) (Node 5 Void Void)
-
-
 -- (1)
 -- Scrivere una funzione che calcola la somma dei valori di un albero a valori sommabili.
 sommaAlbero Void = 0
@@ -372,8 +350,6 @@ insertInTree t x
   | x > val t = Node (val t) (left t) (insertInTree (right t) x)
   | otherwise = Node (val t) (insertInTree (left t) x) (right t)
 
-bst = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 Void Void) (Node 30 Void Void))
-bst2 = Node 10 (Node 5 (Node 3 Void Void) (Node 7 Void Void)) (Node 20 (Node 14 Void Void) (Node 30 Void (Node 40 Void Void)))
 
 -- (6)
 -- Si scriva una funzione bst2List che calcola la lista ordinata degli elementi di un BST. Ci si assicuri di scrivere una funzione lineare.
@@ -418,8 +394,6 @@ annotate t                    = Node (val t, 1 + max leftH rightH) leftTree righ
     rightTree = annotate (right t)
     leftH = snd (val leftTree)
     rightH = snd (val rightTree)
-
-bst3 = Node 10 Void (Node 11 Void Void)
 
 
 -- (10)
@@ -554,9 +528,6 @@ treefold _ accumulatore VoidTree = accumulatore
 treefold f accumulatore (NodeTree a ts) =
   f a (map (treefold f accumulatore) ts)
 
-x = NodeTree 10 [NodeTree 4 [], NodeTree 3 []] 
-risultato = treefold (\a b -> a + sum b) 0 x -- somma tutti i nodi dell'albero
-
 -- (2)
 -- Si scriva una funzione height per calcolare l’altezza di un albero usando opportunamente la
 -- treefold dell’Esercizio 1. Si attribuisca altezza -1 all’albero vuoto.
@@ -570,9 +541,6 @@ treeHeight t = treefold increaseHeight (-1) t
     increaseHeight :: (Eq a, Show a) => a -> [Int] -> Int
     increaseHeight x [] = 0
     increaseHeight x tx = 1 + maximum tx
-
-y = NodeTree 150 (replicate 10 VoidTree)
-
 
 -- (3)
 -- Si scriva una funzione simplify per eliminare i figli Void ridondanti usando opportunamente la
@@ -690,14 +658,6 @@ treeSimplify t = treefold simiplifyChildrenList VoidTree t
 data QT a = C a | Q (QT a) (QT a) (QT a) (QT a) 
   deriving (Eq , Show)
 
-myQuadTree = Q (C 1) (C 2) (C 3) (Q (C 4) (C 1) (C 2) (C 3))
-quad1 = Q (C 1) (C 1) (C 1) (C 1)
-quad2 = Q (C 7) (C 3) (C 2) (C 9)
-quad3 = Q (C 8) (C 9) (C 1) (C 8)
-quad4 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 1))
-quad5 = Q (C 18) (C 19) (C 11) (C 18)
-quad6 = Q (C 9) (C 1) (C 0) (Q (C 1) (C 1) (C 1) (C 2))
-
 -- (1)
 -- Si scriva una funzione `buildNSimplify` che dati 4 QuadTree costruisca un QuadTree la cui im-
 -- magine codificata sia quella ottenuta dalle 4 immagini corrispondenti ai 4 QuadTree messe nei
@@ -730,11 +690,12 @@ transform f q = simplify (compute_transform f q)
   where
     compute_transform f (C a)       = C (f a)
     compute_transform f (Q a b c d) = Q (compute_transform f a) (compute_transform f b) (compute_transform f c) (compute_transform f d)
--- esempio di funzione da utilizzare per f
-add10 n = n + 10
-square n = n^2
-decina n = 10 * (n `div` 10) -- !! interessante usare questa f su quad5 -> si ottiene un immagine maggiormente compressa dopo aver applicato transforma
-                             -- transform decina quad5
+
+-- -- esempio di funzione da utilizzare per f
+-- add10 n = n + 10
+-- square n = n^2
+-- decina n = 10 * (n `div` 10) -- !! interessante usare questa f su quad5 -> si ottiene un immagine maggiormente compressa dopo aver applicato transforma
+--                              -- transform decina quad5
 
 -- (4)
 -- Si scriva una funzione howManyPixels che dato un QuadTree determina il numero (minimo) di
@@ -757,11 +718,6 @@ howManyPixelsV2 q = pixelPerSide q ^ 2
     pixelPerSide (C a) = 1
     pixelPerSide (Q a b c d) = 
       2 * maximum [pixelPerSide a,pixelPerSide b,pixelPerSide c,pixelPerSide d]
-
-z = C 0
-u = C 1
-q = Q z u u u 
-ris = howManyPixelsV1 (Q q (C 0) (C 2) q) -- ris = 16
 
 -- (5)
 -- Si scriva una funzione limitAll che dato un colore c e una lista di QuadTrees costruisca la lista
@@ -834,8 +790,6 @@ differenceV2 color q = differenceAux q color (howManyPixelsV1 q)
       | otherwise = 0
     differenceAux (Q a b c d) color size
       = sum (map (\y -> differenceAux y color (size `div` 4)) [a,b,c,d])
-
-quad7 = Q (Q (C 2) (C 1) (C 1) (C 1)) (C 0) (C 3) (Q (C 2) (C 1) (C 1) (C 1))
 
 -- (8)
 -- Si scriva una funzione Haskell overColor che dato un colore c ed un QuadTree q determina il
@@ -1019,25 +973,6 @@ matSum (Mat nexp1 (Q a1 a2 a3 a4)) (Mat nexp2 (Q b1 b2 b3 b4))
   (mat (matSum (Mat (nexp1-1) a3) (Mat (nexp2-1) b3))) 
   (mat (matSum (Mat (nexp1-1) a4) (Mat (nexp2-1) b4)))
   )
-
-d = C 2
-t = C 3
-qu = C 4
-c = C 5
-s = C 6
-e = C 7
-o = C 8
-n = C 9
-
-mat1 = Mat 2 (Q d (Q z u d qu) u t)
-mat2 = Mat 2 (Q (Q s t d u) qu z d) -- mat1 + mat2 funziona come mi sarei aspettato ✔
-mat3 = Mat 2 (Q (Q u u d d) qu d u)
-mat4 = Mat 2 (Q (Q s d u z) d o z) -- mat3 + mat4 funziona come mi sarei aspettato ✔
-mat5 = Mat 1 (C 1)
-mat6 = Mat 1 (Q t u s n) -- mat3 + mat4 funziona come mi sarei aspettato ✔
-mat7 = Mat 2 (C 1)
-mat8 = Mat 2 (Q (Q s d u z) s u t) -- tutto ok anche per mat7 + mat8 ✔
-
 
 -- (5)
 -- Si scriva una funzione matMul che date 2 matrici calcoli la matrice prodotto.
