@@ -287,23 +287,27 @@ convergent m r = tot m r (length m) < r
 -- (9)
 -- Si scriva una funzione che data una matrice di dimensioni m × n restituisce la corrispondente matrice trasposta (di dimensioni n × m).
 
+trasponi :: [[a]] -> [[a]]
 trasponi [] = []
 trasponi m = fst( 
               foldr (\_ (out, n_col) -> (extractCol m n_col :out , n_col - 1)) 
               ([],length (m!!0) - 1) 
               (m!!0))
-extractCol m col = foldr (\row bs -> row!!col:bs) [] m
-
-x = [[1,2,3,0],
-     [3,10,3,0],
-     [3,3,10,0]]
+  where
+    extractCol m col = foldr (\row bs -> row!!col:bs) [] m
 
 -- (10)
 -- Si scriva un predicato isSymmetric che, data una matrice quadrata, determina se è simmetrica
+isSymmetric :: (Eq a) => [[a]] -> Bool
+isSymmetric m = trasponi m == m
+
 
 -- (11)
 -- Si scriva una funzione che data una matrice di dimensioni n × k ed una k × m restituisca la matrice prodotto corrispondente (di dimensioni n × m). Si assuma di moltiplicare matrici con dimensioni compatibili e (se facesse comodo) matrici non degeneri
 
+x = [[1,3,3],
+     [3,10,3],
+     [3,3,0]]
 
 ---------------------------------------------------------------------------------
 -- argomento 4: ALBERI BINARI DI RICERCA
