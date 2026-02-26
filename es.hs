@@ -293,7 +293,7 @@ trasponi m = fst(
               foldr (\_ (out, n_col) -> (extractCol m n_col :out , n_col - 1)) 
               ([],length (m!!0) - 1) 
               (m!!0))
-  where
+  where 
     extractCol m col = foldr (\row bs -> row!!col:bs) [] m
 
 -- (10)
@@ -301,13 +301,26 @@ trasponi m = fst(
 isSymmetric :: (Eq a) => [[a]] -> Bool
 isSymmetric m = trasponi m == m
 
-
 -- (11)
 -- Si scriva una funzione che data una matrice di dimensioni n × k ed una k × m restituisca la matrice prodotto corrispondente (di dimensioni n × m). Si assuma di moltiplicare matrici con dimensioni compatibili e (se facesse comodo) matrici non degeneri
+
+prodotto :: (Num a) => [[a]] -> [[a]] -> [[a]]
+prodotto m1 m2 = map (\i -> prodottoSingolo (m1!!i) m2) [0..length m1 - 1]
+  where
+    -- da usare per cacolare il prodotto tra due matrici di dimensioni compativili dove la prima è un vettore riga
+    -- (1xk) * (kxm) -> (1xm)
+    prodottoScalare v m = fst (foldl (\(tot, i) _ -> (tot + v!!i * m!!i,i+1)) (0,0) v)
+    extractRow m row = m!!row
+    extractCol m col = foldr (\row bs -> row!!col:bs) [] m
+    prodottoSingolo m1 m2 = map (\i -> prodottoScalare m1 (extractCol m2 i)) [0..length m1 - 1]
+
+y = [[1,1,1],
+     [1,2,1]]
 
 x = [[1,3,3],
      [3,10,3],
      [3,3,0]]
+
 
 ---------------------------------------------------------------------------------
 -- argomento 4: ALBERI BINARI DI RICERCA
