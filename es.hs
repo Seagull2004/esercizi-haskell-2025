@@ -276,6 +276,17 @@ diagonalV2 mat = fst (foldl diagonalAux (True, 0) mat)
 
 -- (8)
 -- Una matrice quadrata M di ordine n si dice convergente con raggio r se il modulo della somma degli elementi di ogni riga, escluso quello sulla diagonale, è inferiore a r. Si scriva un predicato convergent m r che determina se una matrice (quadrata) m è convergente con raggio r.
+convergent :: (Num a, Ord a) => [[a]] -> a -> Bool
+convergent m r = tot m r (length m) < r
+  where 
+    tot :: Num a => [[a]] -> a -> Int -> a
+    tot m r n = fst (foldl (\ (tot,row_n) row -> (tot + sumList row - (row!!row_n), row_n + 1) ) (0, 0) m)
+    sumList [] = 0
+    sumList (x:xs) = x + sumList xs
+
+x = [[1,2,3],
+     [3,10,3],
+     [3,3,10]]
 
 -- (9)
 -- Si scriva una funzione che data una matrice di dimensioni m × n restituisce la corrispondente matrice trasposta (di dimensioni n × m).
