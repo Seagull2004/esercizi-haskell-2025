@@ -153,13 +153,15 @@ creaListaCoppieV3 (x:xs) = (x, sum xs) : creaListaCoppieV3 xs
 --  (a) il primo elemento di ogni coppia è uguale all’elemento di corrispondente posizione nella lista originale e 
 --  (b) il secondo elemento di ogni coppia è uguale alla somma di tutti gli elementi antecedenti della lista originale
 -- [farlo con foldr o foldl è difficile]
--- TODO: è possibile farlo con foldl?
 creaListaCoppieAntV1 :: [Int] -> [(Int,Int)]
 creaListaCoppieAntV1 [] = []
 creaListaCoppieAntV1 xs = creaListaCoppieAntAux xs 0
   where
     creaListaCoppieAntAux [] inc     = []
     creaListaCoppieAntAux (x:xs) inc = (x, inc) : creaListaCoppieAntAux xs (inc + x)
+
+creaListaCoppieAntV2 :: [Integer] -> [(Integer,Integer)]
+creaListaCoppieAntV2 xs = fst (foldr (\item (bs,sum) -> ((item,sum):bs, sum+item)) ([],0) xs)
 
 -- (7)
 -- Si scriva una funzione Haskell shiftToZero che data una lista costruisce un nuova lista che contiene gli elementi diminuiti del valore minimo. 
@@ -202,9 +204,9 @@ matColSumV1 (line:rest) = colSumAux rest line
           sumVect :: (Num a) => [a] -> [a] -> [a]
           sumVect = zipWith (+)
 
-matColSumV2 [] = []
-matColSumV2 ([]:_) = []
-matColSumV2 mat = sum (map head mat) : matColSumV2 (map tail mat)
+-- matColSumV2 [] = []
+-- matColSumV2 ([]:_) = []
+-- matColSumV2 mat = sum (map head mat) : matColSumV2 (map tail mat)
 
 -- (3)
 -- Si scriva una funzione colaltsums che, data una matrice implementata come liste di liste per righe, calcola il vettore delle somme a segni alternati delle colonne della matrice.
